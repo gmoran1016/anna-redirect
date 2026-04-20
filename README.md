@@ -12,16 +12,21 @@ When you visit it, the service fetches the current mirror URLs from Wikipedia, c
 
 Returns `503` with a plain-text message if Wikipedia is unreachable or no live mirror is found.
 
-## Installing on Unraid (Community Applications)
+## Installing on Unraid
 
-1. In Unraid, go to **Apps** → **Settings**
-2. Under **Template Repositories**, add:
-   ```
-   https://github.com/gmoran1016/anna-redirect
-   ```
-3. Click **Save** and wait for CA to refresh
-4. Search for **AnnaRedirect** in the Apps tab and click **Install**
-5. Set your preferred host port (default: `5000`) and click **Apply**
+1. Go to the **Docker** tab
+2. Scroll to the bottom and click **ADD CONTAINER**
+3. Fill in the following fields:
+   - **Name:** `AnnaRedirect`
+   - **Repository:** `ghcr.io/gmoran1016/anna-redirect:latest`
+   - **Network Type:** Bridge
+4. Click **Add another Path, Port, Variable, Label or Device**
+   - Type: `Port`
+   - Name: `Web UI`
+   - Container Port: `5000`
+   - Host Port: `5000`
+   - Protocol: `TCP`
+5. Click **Apply**
 
 Bookmark `http://<unraid-ip>:5000/`.
 
