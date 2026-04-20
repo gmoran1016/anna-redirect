@@ -4,10 +4,13 @@ import os
 from flask import Flask, redirect
 from scraper import get_candidate_urls
 from checker import find_live_url
-from version import VERSION
+
+VERSION = "1.0.2"
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 log = logging.getLogger(__name__)
+
+log.info("Starting Anna Redirect v%s", VERSION)
 
 app = Flask(__name__)
 
@@ -15,7 +18,6 @@ CACHE_TTL = 3600
 
 _cached_url: str | None = None
 _cache_time: float | None = None
-
 
 
 @app.route("/")
@@ -50,6 +52,5 @@ def redirect_to_anna():
 
 
 if __name__ == "__main__":
-    log.info("Starting Anna Redirect v%s", VERSION)
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
