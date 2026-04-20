@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>AnnaRedirect</Name>
+  <Repository>ghcr.io/gmoran1016/anna-redirect:latest</Repository>
+  <Registry>https://github.com/gmoran1016/anna-redirect</Registry>
+  <Network>bridge</Network>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Overview>Bookmarkable redirect to a live Anna's Archive mirror. Scrapes the Anna's Archive Wikipedia page for current mirror URLs and redirects to the first reachable one. Results are cached for 1 hour.</Overview>
+  <Category>Tools:</Category>
+  <WebUI>http://[IP]:[PORT:5000]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/gmoran1016/anna-redirect/master/anna-redirect.xml</TemplateURL>
+  <Description>Bookmarkable redirect to a live Anna's Archive mirror. Scrapes the Anna's Archive Wikipedia page for current mirror URLs and redirects to the first reachable one. Results are cached for 1 hour.</Description>
+  <Config
+    Name="Web UI Port"
+    Target="5000"
+    Default="5000"
+    Mode="tcp"
+    Description="Port to access the redirect service. Bookmark http://&lt;unraid-ip&gt;:&lt;port&gt;/"
+    Type="Port"
+    Display="always"
+    Required="true"
+    Mask="false">5000</Config>
+  <Config
+    Name="PORT"
+    Target="PORT"
+    Default="5000"
+    Description="Must match the port mapped above."
+    Type="Variable"
+    Display="advanced"
+    Required="false"
+    Mask="false">5000</Config>
+</Container>
