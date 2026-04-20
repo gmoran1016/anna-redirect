@@ -6,6 +6,11 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; AnnaRedirect/1.0)"}
 
 
 def get_candidate_urls() -> list[str]:
+    """Fetch Anna's Archive mirror URLs from the Wikipedia URL section.
+
+    Returns external HTTPS URLs in order of appearance. Returns [] if the
+    URL section is not found. Raises RuntimeError if Wikipedia is unreachable.
+    """
     resp = requests.get(WIKI_URL, headers=HEADERS, timeout=10)
     if resp.status_code != 200:
         raise RuntimeError(f"Wikipedia returned HTTP {resp.status_code}")

@@ -1,5 +1,4 @@
 import responses
-import requests
 from scraper import get_candidate_urls
 
 WIKI_URL = "https://en.wikipedia.org/wiki/Anna%27s_Archive?oldformat=true"
