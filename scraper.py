@@ -17,15 +17,19 @@ def get_candidate_urls() -> list[str]:
 
     soup = BeautifulSoup(resp.text, "html.parser")
 
-    url_heading = soup.find(id="URL") or soup.find(id="URLs")
-    if not url_heading:
+    # URLs are in the infobox: find the <th> whose text is "URL" or "Website",
+    # then extract https:// links from the sibling <td>.
+    url_cell = None
+    for th in soup.find_all("th"):
+        if th.get_text(strip=True) in ("URL", "Website", "URLs"):
+            url_cell = th.find_next_sibling("td")
+            break
+
+    if not url_cell:
         return []
 
-    urls = []
-    for tag in url_heading.find_parent().find_all_next("a", href=True):
-        href = tag["href"]
-        if href.startswith("https://") and "wikipedia.org" not in href:
-            urls.append(href)
-        elif href.startswith("#") or href.startswith("/wiki/"):
-            break
-    return urls
+    return [
+        a["href"]
+        for a in url_cell.find_all("a", href=True)
+        if a["href"].startswith("https://") and "wikipedia.org" not in a["href"]
+    ]

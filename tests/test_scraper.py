@@ -5,19 +5,23 @@ WIKI_URL = "https://en.wikipedia.org/wiki/Anna%27s_Archive?oldformat=true"
 
 SAMPLE_HTML = """
 <html><body>
-<h2><span id="URL">URL</span></h2>
-<ul>
-  <li><a href="https://annas-archive.org">annas-archive.org</a></li>
-  <li><a href="https://annas-archive.se">annas-archive.se</a></li>
-  <li><a href="/wiki/InternalLink">internal</a></li>
-</ul>
+<table class="infobox">
+  <tr><th>URL</th><td>
+    <ul>
+      <li><a href="https://annas-archive.org">annas-archive.org</a></li>
+      <li><a href="https://annas-archive.se">annas-archive.se</a></li>
+      <li><a href="/wiki/InternalLink">internal</a></li>
+    </ul>
+  </td></tr>
+</table>
 </body></html>
 """
 
 NO_SECTION_HTML = """
 <html><body>
-<h2><span id="History">History</span></h2>
-<p>Some text</p>
+<table class="infobox">
+  <tr><th>Founded</th><td>2022</td></tr>
+</table>
 </body></html>
 """
 
