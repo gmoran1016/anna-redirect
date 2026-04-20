@@ -11,14 +11,17 @@ def client():
         yield c
 
 
+@pytest.fixture(autouse=True)
 def reset_cache():
     import app as a
+    a._cached_url = None
+    a._cache_time = None
+    yield
     a._cached_url = None
     a._cache_time = None
 
 
 def test_redirects_to_live_url(client):
-    reset_cache()
     with patch("app.get_candidate_urls", return_value=["https://annas-archive.org"]), \
          patch("app.find_live_url", return_value="https://annas-archive.org"):
         resp = client.get("/")
@@ -27,7 +30,6 @@ def test_redirects_to_live_url(client):
 
 
 def test_uses_cache_on_second_request(client):
-    reset_cache()
     with patch("app.get_candidate_urls", return_value=["https://annas-archive.org"]) as mock_scraper, \
          patch("app.find_live_url", return_value="https://annas-archive.org"):
         client.get("/")
@@ -36,7 +38,6 @@ def test_uses_cache_on_second_request(client):
 
 
 def test_503_when_wikipedia_unreachable(client):
-    reset_cache()
     with patch("app.get_candidate_urls", side_effect=RuntimeError("Wikipedia returned HTTP 503")):
         resp = client.get("/")
     assert resp.status_code == 503
@@ -44,7 +45,6 @@ def test_503_when_wikipedia_unreachable(client):
 
 
 def test_503_when_no_urls_parsed(client):
-    reset_cache()
     with patch("app.get_candidate_urls", return_value=[]), \
          patch("app.find_live_url", return_value=None):
         resp = client.get("/")
@@ -53,7 +53,6 @@ def test_503_when_no_urls_parsed(client):
 
 
 def test_503_when_all_urls_dead(client):
-    reset_cache()
     with patch("app.get_candidate_urls", return_value=["https://annas-archive.org"]), \
          patch("app.find_live_url", return_value=None):
         resp = client.get("/")
@@ -62,7 +61,6 @@ def test_503_when_all_urls_dead(client):
 
 
 def test_cache_expires_after_ttl(client):
-    reset_cache()
     with patch("app.get_candidate_urls", return_value=["https://annas-archive.org"]) as mock_scraper, \
          patch("app.find_live_url", return_value="https://annas-archive.org"), \
          patch("app.time") as mock_time:

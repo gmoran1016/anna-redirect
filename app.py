@@ -16,7 +16,6 @@ CACHE_TTL = 3600
 _cached_url: str | None = None
 _cache_time: float | None = None
 
-log.info("Starting Anna Redirect v%s", VERSION)
 
 
 @app.route("/")
@@ -51,5 +50,6 @@ def redirect_to_anna():
 
 
 if __name__ == "__main__":
+    log.info("Starting Anna Redirect v%s", VERSION)
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
